@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+body {
+    @apply min-h-screen bg-gradient-to-br from-blue-500 to-indigo-600 flex flex-col items-center justify-center text-white;
+}
+
+.TodoWrapper {
+    @apply max-w-lg w-full bg-white p-8 rounded-2xl shadow-2xl border border-gray-200 text-center;
+}
+
+h1 {
+    @apply text-4xl font-extrabold text-gray-800 mb-4;
+}
+
+h2 {
+    @apply text-xl font-semibold text-gray-600 mb-6;
+}
+
+.todo-input {
+    @apply flex-grow p-3 border border-gray-400 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-blue-400;
+}
+
+.todo-btn {
+    @apply w-full bg-blue-500 text-white px-4 py-2 rounded-lg 
+    hover:bg-blue-600 transition shadow-md mt-2;
+}
+
+.toggle-btn {
+    @apply bg-gray-200 text-gray-700 px-3 py-1 rounded-lg 
+    hover:bg-gray-300 transition;
+}
+
+.todo-list {
+    @apply mt-4 space-y-3;
+}
+
+.todo-item {
+    @apply flex justify-between items-center bg-gray-100 p-3 rounded-lg shadow;
+}
+
+.completed {
+    @apply line-through text-gray-500 italic;
+}
+
+.delete-btn {
+    @apply bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition;
+}
+
+button {
+    @apply px-4 py-2 rounded-lg shadow-md transition duration-200;
+}
+
+button:hover {
+    @apply shadow-lg;
+}
+
+input {
+    color: black;
+    background-color: white;
+    text-align: left;
+}
