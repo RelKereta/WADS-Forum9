@@ -45,23 +45,18 @@ A Todo list application with MongoDB integration. This application provides REST
 
 ### Installation
 
-1. Clone the repository
-```
-git clone <repository-url>
-```
-
-2. Install dependencies
+1. Install dependencies
 ```
 npm install
 ```
 
-3. Set up MongoDB
+2. Set up MongoDB
    - Create a MongoDB Atlas cluster or use a local MongoDB installation
    - Update the MongoDB URI in `api/config/db.js` if needed
 
-4. Start the server
+3. Start the server
 ```
-npm run server
+npm run api
 ```
 
 5. Start the frontend
@@ -99,6 +94,3 @@ npm run seed
 ```
 
 This will create sample users and todos in your MongoDB database.
-
-## License
-MIT
