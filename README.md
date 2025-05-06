@@ -103,6 +103,12 @@ During the development of this application, several challenges were encountered:
 - **401 Unauthorized Errors**: These occurred when the application wasn't properly sending authentication cookies with API requests. The solution was to configure Axios with `withCredentials: true` in the apiService.js file.
 - **Session vs Token Authentication**: The application was initially configured for token-based authentication but later switched to session-based auth, requiring updates to the authentication flow.
 
+### Sequelize and MongoDB Integration Challenges
+- **Connection Issues**: Problems connecting to MongoDB through Sequelize due to incorrect URI format or missing authentication credentials.
+- **Model Definition Conflicts**: Schema validation errors when Sequelize models didn't match the expected MongoDB document structure.
+- **Synchronization Problems**: Difficulties with Sequelize's `sync()` method which works differently with MongoDB compared to SQL databases.
+- **Query Performance**: Some complex Sequelize queries performed poorly with MongoDB, requiring optimization or direct use of MongoDB queries.
+
 ### Component Integration Challenges
 - **API Data Format Mismatches**: The Todo and EditTodoForm components expected different data formats than what the API was providing. This required updates to handle both API data (`todo.task`) and local storage data formats.
 - **Function Name Mismatches**: There were inconsistencies between function names in the components (e.g., `getAllTodos()`) and the actual API service methods (e.g., `getAll()`).
@@ -116,3 +122,5 @@ When troubleshooting this application, ensure that:
 2. API requests include the `withCredentials: true` option
 3. Components correctly handle the data structure returned from the API
 4. API service function names match what components are calling
+5. MongoDB connection string is properly formatted and includes correct credentials
+6. Sequelize models are properly defined to work with MongoDB's document structure

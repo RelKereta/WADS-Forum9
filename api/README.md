@@ -57,10 +57,4 @@ Once the server is running, you can access:
 - MongoDB
 - Express.js
 - Swagger UI
-- express-validator
-
-## Integration with Firebase
-
-This API is designed to work alongside the existing Firebase implementation. While Firebase handles authentication and real-time updates, this API provides a more structured data layer using Sequelize ORM.
-
-You can use both Firebase for front-end features and this API for backend operations, or gradually migrate from Firebase to this API solution. 
+- express-validator 
