@@ -94,3 +94,25 @@ npm run seed
 ```
 
 This will create sample users and todos in your MongoDB database.
+
+## Common Issues and Troubleshooting
+
+During the development of this application, several challenges were encountered:
+
+### Authentication Issues
+- **401 Unauthorized Errors**: These occurred when the application wasn't properly sending authentication cookies with API requests. The solution was to configure Axios with `withCredentials: true` in the apiService.js file.
+- **Session vs Token Authentication**: The application was initially configured for token-based authentication but later switched to session-based auth, requiring updates to the authentication flow.
+
+### Component Integration Challenges
+- **API Data Format Mismatches**: The Todo and EditTodoForm components expected different data formats than what the API was providing. This required updates to handle both API data (`todo.task`) and local storage data formats.
+- **Function Name Mismatches**: There were inconsistencies between function names in the components (e.g., `getAllTodos()`) and the actual API service methods (e.g., `getAll()`).
+
+### React-Specific Issues
+- **Missing Key Warnings**: When rendering lists of todos, each item needed a unique "key" prop using either `_id` or `id` properties depending on the data source.
+- **Null Property Access**: The "Cannot read properties of null" error occurred when components tried to access properties before data was loaded.
+
+When troubleshooting this application, ensure that:
+1. Authentication is properly configured with session cookies
+2. API requests include the `withCredentials: true` option
+3. Components correctly handle the data structure returned from the API
+4. API service function names match what components are calling
