@@ -248,6 +248,9 @@ const TodoList = () => {
     }
   };
 
+  // Filter todos based on completion status
+  const filteredTodos = todos.filter(todo => showCompleted ? todo.completed : true);
+
   return (
     <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg mt-6">
       <h1 className="text-2xl font-semibold text-center mb-4 text-black">To-Do List</h1>
@@ -257,20 +260,26 @@ const TodoList = () => {
           onClick={() => setUseLocalData(!useLocalData)}
           className="bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 w-full mb-2"
         >
-          {useLocalData ? "Switch to API Backend" : "Switch to Local Data"}
+          {useLocalData ? "Use API" : "Use Local Data"}
         </button>
         <p className="text-sm text-gray-600 text-center">
-          Currently using: {useLocalData ? "Local Data (Offline)" : "Database API (Sequelize)"}
+          Currently using: {useLocalData ? "Local Data" : "API"}
         </p>
       </div>
-       
-      <TodoForm addToDo={addToDo} />
-
+      
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
+        <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <p className="text-sm">{error}</p>
+          <button 
+            onClick={() => setError(null)} 
+            className="text-xs underline ml-2"
+          >
+            Dismiss
+          </button>
         </div>
       )}
+      
+      <TodoForm addToDo={addToDo} />
 
       <button
         onClick={() => setShowCompleted(!showCompleted)}
@@ -280,46 +289,46 @@ const TodoList = () => {
       </button>
 
       {loading ? (
-        <div className="text-center py-4">Loading todos...</div>
+        <div className="flex justify-center my-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-700"></div>
+        </div>
       ) : (
-        <div className="space-y-3">
-          {todos.length === 0 ? (
-            <div className="text-center py-4 text-gray-500">No tasks available</div>
+        <div>
+          {filteredTodos.length === 0 ? (
+            <div className="text-center text-gray-500 my-6">
+              {todos.length === 0 
+                ? "No tasks yet. Add one above!" 
+                : "No tasks match the current filter."}
+            </div>
           ) : (
-            todos
-              .filter((todo) => (showCompleted ? todo.completed : true))
-              .map((todo) => {
-                // Ensure todo has an id for the key prop
-                const todoId = todo._id || todo.id;
-                
-                return editingTask?.id === todoId ? (
-                  <EditTodoForm 
-                    key={todoId} 
-                    updateTask={updateTask} 
-                    task={editingTask} 
-                    setEditingTask={setEditingTask}
-                  />
-                ) : (
-                  <Todo 
-                    key={todoId} 
-                    todo={todo} 
-                    toggleComplete={toggleComplete} 
-                    deleteToDo={deleteToDo} 
-                    editToDo={editToDo} 
-                  />
-                );
-              })
+            filteredTodos.map((todo) => 
+              editingTask && (editingTask.id === todo._id || editingTask.id === todo.id) ? (
+                <EditTodoForm
+                  key={todo._id || todo.id}
+                  editTask={updateTask}
+                  task={editingTask}
+                />
+              ) : (
+                <Todo
+                  key={todo._id || todo.id}
+                  task={todo}
+                  toggleComplete={() => toggleComplete(todo._id || todo.id)}
+                  deleteToDo={() => deleteToDo(todo._id || todo.id)}
+                  editToDo={() => editToDo(todo._id || todo.id, todo.task)}
+                />
+              )
+            )
           )}
         </div>
       )}
-       
-      <div className="mt-4 text-xs text-gray-500">
-        <p>Debug info:</p>
-        <p>User ID: {user?.id || 'Not logged in'}</p>
-        <p>Email: {user?.email || 'Not logged in'}</p>
-        <p>Todos count: {todos.length}</p>
-        <p>Data source: {useLocalData ? "Local" : "API"}</p>
-      </div>
+      
+      {todos.length > 0 && (
+        <div className="mt-4 text-xs text-gray-500 text-right">
+          Total: {todos.length} | 
+          Completed: {todos.filter(todo => todo.completed).length} | 
+          Active: {todos.filter(todo => !todo.completed).length}
+        </div>
+      )}
     </div>
   );
 };

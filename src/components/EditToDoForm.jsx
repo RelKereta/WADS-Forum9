@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
-const EditTodoForm = ({ updateTask, task, setEditingTask }) => {
+const EditTodoForm = ({ editTask, task }) => {
   // Initialize value with the task string, handling different property structures
   const initialValue = typeof task === 'object' ? task.task : task;
   const [value, setValue] = useState(initialValue);
@@ -18,17 +18,11 @@ const EditTodoForm = ({ updateTask, task, setEditingTask }) => {
     // Get the id from the task object, handling both API and local formats
     const id = task._id || task.id;
     console.log(`Updating task with ID: ${id}, new value: ${value}`);
-    updateTask(id, value);
-  };
-
-  const handleCancel = () => {
-    if (setEditingTask) {
-      setEditingTask(null);
-    }
+    editTask(id, value);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 p-4 bg-gray-100 rounded-lg shadow">
+    <form onSubmit={handleSubmit} className="flex gap-2 p-4 bg-gray-100 rounded-lg shadow mb-3">
       <input
         type="text"
         value={value}
@@ -39,7 +33,7 @@ const EditTodoForm = ({ updateTask, task, setEditingTask }) => {
       <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Update</button>
       <button 
         type="button" 
-        onClick={handleCancel}
+        onClick={() => editTask(null, '')}
         className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
       >
         Cancel
@@ -49,7 +43,7 @@ const EditTodoForm = ({ updateTask, task, setEditingTask }) => {
 };
 
 EditTodoForm.propTypes = {
-  updateTask: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
   task: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.shape({
@@ -57,8 +51,7 @@ EditTodoForm.propTypes = {
       _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       task: PropTypes.string,
     })
-  ]).isRequired,
-  setEditingTask: PropTypes.func
+  ]).isRequired
 };
 
 export default EditTodoForm;
